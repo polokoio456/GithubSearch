@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">GithubSearch</string>
+
+    <string name="item_search_name">name: %s</string>
+
+    <string name="search_hint">請輸入搜尋關鍵字</string>
+    <string name="string_loading">讀取中</string>
+    <string name="network_wrong">網路不佳</string>
+
+    <string name="search_click">搜尋</string>
+</resources>

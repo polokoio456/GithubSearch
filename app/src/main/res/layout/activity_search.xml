@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.view.View"/>
+
+        <variable
+            name="viewModel"
+            type="com.example.githubsearch.ui.viewmodel.SearchViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <EditText
+            android:id="@+id/search_bar"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/shape_search_bar_background"
+            android:drawableStart="@drawable/ic_search_dark"
+            android:hint="@string/search_hint"
+            android:includeFontPadding="false"
+            android:singleLine="true"
+            android:textColor="#FFFFFFFF"
+            android:textColorHint="#909090"
+            android:textCursorDrawable="@null"
+            app:addTextChangedListener="@{viewModel.searchTextWatcher}"
+            android:imeOptions="flagNoExtractUi|flagNoFullscreen|actionSearch"
+            android:textSize="14sp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/search_click"/>
+
+        <TextView
+            android:id="@+id/search_click"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:text="@string/search_click"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:onClick="@{() -> viewModel.onSearchClick()}"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintTop_toTopOf="@+id/search_bar"
+            app:layout_constraintBottom_toBottomOf="@+id/search_bar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/search_bar"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/user_list"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
+            app:layout_constraintTop_toBottomOf="@+id/search_bar"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <include
+            android:id="@+id/progressbar"
+            layout="@layout/base_progress_view"
+            android:visibility="gone"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:visibility="visible" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
