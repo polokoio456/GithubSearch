@@ -1,6 +1,8 @@
 package com.example.githubsearch.helper
 
+import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
@@ -21,6 +23,7 @@ class RetrofitGenerator {
         private fun buildRetrofit() =
             Retrofit.Builder()
                 .baseUrl(DOMAIN_BASE_URL)
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(getOkHttpClient())
                 .build()
@@ -31,6 +34,7 @@ class RetrofitGenerator {
                 .writeTimeout(TIMEOUT_SEC, TimeUnit.SECONDS)
                 .connectTimeout(TIMEOUT_SEC, TimeUnit.SECONDS)
                 .retryOnConnectionFailure(true)
+                .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
 
             return builder.build()
         }

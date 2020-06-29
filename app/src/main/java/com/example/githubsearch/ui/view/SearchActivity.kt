@@ -42,9 +42,8 @@ class SearchActivity : AppCompatActivity(), SearchViewModel.SearchView {
     }
 
     override fun onDestroy() {
-        super.onDestroy()
-
         compositeDisposable.clear()
+        super.onDestroy()
     }
 
     private fun initView() {
