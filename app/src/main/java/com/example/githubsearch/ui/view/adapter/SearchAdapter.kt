@@ -1,6 +1,5 @@
 package com.example.githubsearch.ui.view.adapter
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,8 +8,9 @@ import android.widget.TextView
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.example.githubsearch.R
-import com.example.githubsearch.helper.ImageLoaderHelper
 import com.example.githubsearch.model.GithubUser
 import java.util.*
 
@@ -18,7 +18,7 @@ class SearchAdapter: PagedListAdapter<GithubUser, SearchAdapter.SearchViewHolder
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_search, parent, false)
-        return SearchViewHolder(view, parent.context)
+        return SearchViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: SearchViewHolder, position: Int) {
@@ -38,16 +38,19 @@ class SearchAdapter: PagedListAdapter<GithubUser, SearchAdapter.SearchViewHolder
         }
     }
 
-    class SearchViewHolder(itemView: View, private val context: Context): RecyclerView.ViewHolder(itemView) {
+    class SearchViewHolder(view: View): RecyclerView.ViewHolder(view) {
         var thumbImageView: ImageView = itemView.findViewById(R.id.avatar)
         var nameTextView: TextView = itemView.findViewById(R.id.name)
 
         fun onBind(item: GithubUser) {
-            ImageLoaderHelper.getInstance().loadImage(thumbImageView, item.avatar)
+            Glide.with(itemView.context)
+                .load(item.avatar)
+                .apply(RequestOptions.circleCropTransform())
+                .into(thumbImageView)
 
             nameTextView.text = String.format(
                 Locale.getDefault(),
-                context.getString(R.string.item_search_name),
+                itemView.context.getString(R.string.item_search_name),
                 item.name
             )
         }
