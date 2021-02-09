@@ -26,6 +26,8 @@ import com.google.gson.annotations.SerializedName
 }
  */
 data class GithubUser(
-    @SerializedName("login") val name: String,
-    @SerializedName("avatar_url") val avatar: String
+    @SerializedName("login")
+    val name: String,
+    @SerializedName("avatar_url")
+    val avatar: String
 )

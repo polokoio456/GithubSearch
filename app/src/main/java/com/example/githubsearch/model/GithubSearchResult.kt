@@ -10,7 +10,10 @@ import com.google.gson.annotations.SerializedName
 }
  */
 data class GithubSearchResult(
-    @SerializedName("total_count") val totalCount: String,
-    @SerializedName("incomplete_results") val incompleteResult: String,
-    @SerializedName("items") val userList: List<GithubUser>
+    @SerializedName("total_count")
+    val totalCount: String,
+    @SerializedName("incomplete_results")
+    val incompleteResult: String,
+    @SerializedName("items")
+    val userList: List<GithubUser>
 )
