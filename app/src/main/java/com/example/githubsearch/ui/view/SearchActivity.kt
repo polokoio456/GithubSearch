@@ -1,11 +1,14 @@
 package com.example.githubsearch.ui.view
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.paging.PagedList
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.githubsearch.databinding.ActivitySearchBinding
+import com.example.githubsearch.extension.hideSoftKeyboard
+import com.example.githubsearch.model.GithubUser
 import com.example.githubsearch.ui.view.adapter.SearchAdapter
 import com.jakewharton.rxbinding2.widget.RxTextView
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -23,6 +26,8 @@ class SearchActivity : AppCompatActivity() {
 
     private val compositeDisposable = CompositeDisposable()
 
+    private val searchObservable = Observer<PagedList<GithubUser>> { list -> adapter.submitList(list) }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -32,10 +37,11 @@ class SearchActivity : AppCompatActivity() {
             .filter { it.isNotEmpty() }
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
-                Log.d("Nie", "Search -> $it")
-                viewModel.onSearchClick(it.toString()).observe(this, { list ->
-                    adapter.submitList(list)
-                })
+                hideSoftKeyboard()
+
+                val searchLiveData = viewModel.onSearchClick(it.toString())
+                searchLiveData.removeObserver(searchObservable)
+                searchLiveData.observe(this, searchObservable)
             }.apply {
                 compositeDisposable.add(this)
             }
