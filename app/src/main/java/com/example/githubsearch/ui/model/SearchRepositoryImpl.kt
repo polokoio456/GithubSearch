@@ -4,10 +4,11 @@ import androidx.lifecycle.LiveData
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import com.example.githubsearch.model.GithubUser
+import com.example.githubsearch.service.GithubService
 import com.example.githubsearch.ui.view.paging.SearchPageDataSourceFactory
 import io.reactivex.disposables.CompositeDisposable
 
-class SearchRepositoryImpl : SearchRepository {
+class SearchRepositoryImpl(private val githubService: GithubService) : SearchRepository {
     companion object {
         private const val FIRST_PAGE = 1
         private const val PAGE_SIZE = 20
@@ -15,7 +16,7 @@ class SearchRepositoryImpl : SearchRepository {
 
     override fun search(keyword: String, compositeDisposable: CompositeDisposable): LiveData<PagedList<GithubUser>> {
         return LivePagedListBuilder(
-            SearchPageDataSourceFactory(keyword, compositeDisposable),
+            SearchPageDataSourceFactory(keyword, compositeDisposable, githubService),
             PagedList.Config.Builder()
                 .setPageSize(PAGE_SIZE)
                 .setEnablePlaceholders(false)

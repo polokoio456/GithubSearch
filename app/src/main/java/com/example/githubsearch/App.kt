@@ -2,6 +2,7 @@ package com.example.githubsearch
 
 import android.app.Application
 import com.example.githubsearch.module.adapterModule
+import com.example.githubsearch.module.remoteModule
 import com.example.githubsearch.module.repositoryModule
 import com.example.githubsearch.module.viewModelModule
 import org.koin.android.ext.koin.androidContext
@@ -18,7 +19,8 @@ class App: Application() {
                 listOf(
                     viewModelModule,
                     repositoryModule,
-                    adapterModule
+                    adapterModule,
+                    remoteModule
                 )
             )
         }

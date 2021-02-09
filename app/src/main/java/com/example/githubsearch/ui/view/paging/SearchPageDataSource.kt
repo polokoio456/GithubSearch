@@ -11,12 +11,11 @@ import java.util.concurrent.TimeUnit
 
 class SearchPageDataSource(
     private val keyword: String,
-    private val compositeDisposable: CompositeDisposable
+    private val compositeDisposable: CompositeDisposable,
+    private val githubService: GithubService
 ): PageKeyedDataSource<Int, GithubUser>() {
     override fun loadInitial(params: LoadInitialParams<Int>, callback: LoadInitialCallback<Int, GithubUser>) {
-        RetrofitGenerator
-            .getRetrofit()
-            .create(GithubService::class.java)
+        githubService
             .getUsers(keyword, 1)
             .subscribeOn(Schedulers.io())
             .subscribe({
@@ -27,9 +26,7 @@ class SearchPageDataSource(
     }
 
     override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, GithubUser>) {
-        RetrofitGenerator
-            .getRetrofit()
-            .create(GithubService::class.java)
+        githubService
             .getUsers(keyword, params.key)
             .retryWhen { it.delay(1, TimeUnit.SECONDS) }
             .subscribeOn(Schedulers.io())
