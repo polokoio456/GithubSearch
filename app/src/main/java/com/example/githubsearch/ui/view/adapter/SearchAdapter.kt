@@ -11,48 +11,41 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.githubsearch.R
+import com.example.githubsearch.databinding.ItemSearchBinding
 import com.example.githubsearch.model.GithubUser
 import java.util.*
 
 class SearchAdapter: PagedListAdapter<GithubUser, SearchAdapter.SearchViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_search, parent, false)
-        return SearchViewHolder(view)
+        val binding = ItemSearchBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return SearchViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: SearchViewHolder, position: Int) {
         getItem(position)?.let { holder.onBind(it) }
     }
 
-    companion object {
-        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<GithubUser>() {
-
-            override fun areItemsTheSame(oldItem: GithubUser, newItem: GithubUser): Boolean {
-                return oldItem.avatar == newItem.avatar
-            }
-
-            override fun areContentsTheSame(oldItem: GithubUser, newItem: GithubUser): Boolean {
-                return oldItem == newItem
-            }
-        }
-    }
-
-    class SearchViewHolder(view: View): RecyclerView.ViewHolder(view) {
-        var thumbImageView: ImageView = itemView.findViewById(R.id.avatar)
-        var nameTextView: TextView = itemView.findViewById(R.id.name)
+    class SearchViewHolder(private val binding: ItemSearchBinding): RecyclerView.ViewHolder(binding.root) {
 
         fun onBind(item: GithubUser) {
             Glide.with(itemView.context)
                 .load(item.avatar)
                 .apply(RequestOptions.circleCropTransform())
-                .into(thumbImageView)
+                .into(binding.avatar)
 
-            nameTextView.text = String.format(
+            binding.name.text = String.format(
                 Locale.getDefault(),
                 itemView.context.getString(R.string.item_search_name),
                 item.name
             )
+        }
+    }
+
+    companion object {
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<GithubUser>() {
+            override fun areItemsTheSame(oldItem: GithubUser, newItem: GithubUser) = (oldItem.avatar == newItem.avatar)
+            override fun areContentsTheSame(oldItem: GithubUser, newItem: GithubUser) = (oldItem == newItem)
         }
     }
 }

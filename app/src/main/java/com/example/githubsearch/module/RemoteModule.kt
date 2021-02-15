@@ -5,5 +5,5 @@ import com.example.githubsearch.service.GithubService
 import org.koin.dsl.module
 
 val remoteModule = module {
-    single { RetrofitGenerator.getRetrofit().create(GithubService::class.java) }
+    single { RetrofitGenerator.getInstance().create(GithubService::class.java) }
 }

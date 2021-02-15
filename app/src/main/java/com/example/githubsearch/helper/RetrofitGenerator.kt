@@ -15,7 +15,7 @@ class RetrofitGenerator {
         @Volatile
         private var INSTANCE: Retrofit? = null
 
-        fun getRetrofit(): Retrofit =
+        fun getInstance(): Retrofit =
             INSTANCE ?: synchronized(this) {
                 INSTANCE ?: buildRetrofit().also { INSTANCE = it }
             }

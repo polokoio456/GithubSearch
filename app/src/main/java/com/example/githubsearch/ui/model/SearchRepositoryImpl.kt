@@ -21,6 +21,7 @@ class SearchRepositoryImpl(private val githubService: GithubService) : SearchRep
                 .setPageSize(PAGE_SIZE)
                 .setEnablePlaceholders(false)
                 .build()
-        ).setInitialLoadKey(FIRST_PAGE).build()
+        ).setInitialLoadKey(FIRST_PAGE)
+            .build()
     }
 }

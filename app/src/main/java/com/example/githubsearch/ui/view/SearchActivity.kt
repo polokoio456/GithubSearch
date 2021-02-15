@@ -32,6 +32,22 @@ class SearchActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
+        initView()
+        listenTextChanges()
+    }
+
+    override fun onDestroy() {
+        compositeDisposable.clear()
+        super.onDestroy()
+    }
+
+    private fun initView() {
+        binding.recyclerView.overScrollMode = View.OVER_SCROLL_NEVER
+        binding.recyclerView.layoutManager = LinearLayoutManager(this)
+        binding.recyclerView.adapter = adapter
+    }
+
+    private fun listenTextChanges() {
         RxTextView.textChanges(binding.editSearchBar)
             .throttleLast(1500L, TimeUnit.MILLISECONDS)
             .filter { it.isNotEmpty() }
@@ -45,18 +61,5 @@ class SearchActivity : AppCompatActivity() {
             }.apply {
                 compositeDisposable.add(this)
             }
-
-        initView()
-    }
-
-    override fun onDestroy() {
-        compositeDisposable.clear()
-        super.onDestroy()
-    }
-
-    private fun initView() {
-        binding.recyclerView.overScrollMode = View.OVER_SCROLL_NEVER
-        binding.recyclerView.layoutManager = LinearLayoutManager(this)
-        binding.recyclerView.adapter = adapter
     }
 }
