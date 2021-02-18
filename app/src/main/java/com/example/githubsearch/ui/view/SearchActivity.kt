@@ -55,7 +55,7 @@ class SearchActivity : AppCompatActivity() {
             .subscribe {
                 hideSoftKeyboard()
 
-                val searchLiveData = viewModel.onSearchClick(it.toString())
+                val searchLiveData = viewModel.search(it.toString())
                 searchLiveData.removeObserver(searchObservable)
                 searchLiveData.observe(this, searchObservable)
             }.apply {

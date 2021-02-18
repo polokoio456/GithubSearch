@@ -10,7 +10,7 @@ import io.reactivex.disposables.CompositeDisposable
 class SearchViewModel(private val repository: SearchRepository): ViewModel() {
     private val compositeDisposable = CompositeDisposable()
 
-    fun onSearchClick(keyword: String): LiveData<PagedList<GithubUser>> {
+    fun search(keyword: String): LiveData<PagedList<GithubUser>> {
         return repository.search(keyword, compositeDisposable)
     }
 
