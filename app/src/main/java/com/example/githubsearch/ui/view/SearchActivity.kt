@@ -49,7 +49,7 @@ class SearchActivity : AppCompatActivity() {
 
     private fun listenTextChanges() {
         RxTextView.textChanges(binding.editSearchBar)
-            .throttleLast(1500L, TimeUnit.MILLISECONDS)
+            .debounce(1500L, TimeUnit.MILLISECONDS)
             .filter { it.isNotEmpty() }
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
